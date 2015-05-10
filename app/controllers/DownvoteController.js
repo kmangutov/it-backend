@@ -26,9 +26,18 @@ exports.post = function(req, res) {
       res.statusCode = 500;
       return res.json({message: "Some error " + JSON.stringify(err), data: err});
     } else {
-      //res.statusCode = 201;
-      //return res.json({message: "Found asset", data:asset});
-    
+
+      remove(asset.upvotes, userId);
+      remove(asset.downvotes, userId);
+
+      //0 value
+      if(asset.upvotes.length - asset.downvotes.length <= 0) {
+
+        res.statusCode = 201;
+        return res.json({message: "Cannot downvote stock at 0!", data:asset});
+      }
+
+
       console.log("Found asset");
 
       if(!asset.upvotes)
@@ -36,8 +45,6 @@ exports.post = function(req, res) {
       if(!asset.downvotes)
         asset.downvotes = [];
 
-      remove(asset.upvotes, userId);
-      remove(asset.downvotes, userId);
 
       asset.downvotes.push(userId);
       //console.log("Asset: ")
@@ -50,7 +57,7 @@ exports.post = function(req, res) {
         } else {
 
           res.statusCode = 201;
-          res.json({message: "Successfully added downvote", data:asset}); 
+          return res.json({message: "Successfully added downvote", data:asset}); 
         }
       });
     }
