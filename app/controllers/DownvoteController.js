@@ -22,7 +22,7 @@ exports.post = function(req, res) {
 
   Asset.findOne({_id: assetId}).exec(function(err, asset) {
 
-    if(err) {
+    if(err || !asset) {
       res.statusCode = 500;
       return res.json({message: "Some error " + JSON.stringify(err), data: err});
     } else {
@@ -31,11 +31,14 @@ exports.post = function(req, res) {
       remove(asset.downvotes, userId);
 
       //0 value
-      if(asset.upvotes.length - asset.downvotes.length <= 0) {
+      /*if(asset.upvotes.length - asset.downvotes.length < 0) {
 
         res.statusCode = 201;
-        return res.json({message: "Cannot downvote stock at 0!", data:asset});
-      }
+
+        asset.remove();
+
+        return res.json({message: "Removed stock", data:{}});
+      }*/
 
 
       console.log("Found asset");
