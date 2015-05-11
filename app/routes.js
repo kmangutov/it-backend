@@ -13,12 +13,13 @@ module.exports = function(router, passport) {
   router.post('/users', userController.post);
   router.delete('/users/:id', userController.delete);
 
+  router.get('/portfolio/:id', portfolioController.getOne);
   router.get('/portfolio', portfolioController.get);
   router.post('/portfolio', portfolioController.post);
   router.delete('/portfolio/:id', portfolioController.delete);
 
-  router.get('/portfolio/:id', assetController.get);
-  router.post('/portfolio/:id', assetController.post);
+  router.get('/portfolio/:id/asset', assetController.get);
+  router.post('/portfolio/:id/asset', assetController.post);
 
   router.post('/portfolio/:id/upvote', upvoteController.post);
   router.post('/portfolio/:id/downvote', downvoteController.post);

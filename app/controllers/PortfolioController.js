@@ -31,6 +31,20 @@ exports.post = function(req, res) {
   });
 }
 
+exports.getOne = function(req, res) {
+
+  
+  Portfolio.findOne({_id: req.params.id}).exec(function(err, portfolios) {
+    if(err) {
+      res.statusCode = 500;
+      return res.json({message: 'Error getting portfolios'});
+    }
+
+    res.statusCode = 201;
+    return res.json({message: 'Successfully got portfolios', data: portfolios});
+  });  
+}
+
 exports.get = function(req, res) {
 
   Portfolio.find().exec(function(err, portfolios) {

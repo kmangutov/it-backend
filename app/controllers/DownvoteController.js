@@ -31,14 +31,14 @@ exports.post = function(req, res) {
       remove(asset.downvotes, userId);
 
       //0 value
-      /*if(asset.upvotes.length - asset.downvotes.length < 0) {
+      if(asset.upvotes.length - asset.downvotes.length <= 0) {
 
         res.statusCode = 201;
 
         asset.remove();
 
-        return res.json({message: "Removed stock", data:{}});
-      }*/
+        return res.json({message: "Removed stock", data: {_id: asset._id, action: "delete"} });
+      }
 
 
       console.log("Found asset");

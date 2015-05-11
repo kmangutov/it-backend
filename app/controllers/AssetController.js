@@ -9,9 +9,14 @@ var ObjectId = mongoose.Types.ObjectId();
 exports.post = function(req, res) {
 
   var id = req.params.id;
+  var userId = req.body.user;
 
   var asset = new Asset();
   asset.symbol = req.body.symbol;
+  asset.upvotes = [];
+  asset.upvotes.push(userId + '');
+  asset.downvotes = [];
+
 
   console.log("proposed symbol: " + req.body.symbol);
 
@@ -44,7 +49,7 @@ exports.post = function(req, res) {
         if(err) {
           res.statusCode = 500;
           if(err.code === 11000)
-            return res.json({message: "Duplicate asset!"});
+            return res.json({message: "Duplicate asset!", data: err});
           console.log("Error: " + JSON.stringify(err));
           return res.json({message: "some error " + JSON.stringify(err)});
         }
@@ -76,13 +81,15 @@ exports.get = function(req, res) {
 
   Portfolio.findOne({_id: id}).exec(function(err, portfolio) {
 
-    if(err) {
+    if(err || !portfolio) {
       res.statusCode = 500;
       console.log('Tried to query asset in undefined portfolio ' + id);
       return res.json({message: 'No such portfolio', data: err});
     }
 
     console.log('Portfolio found: ' + JSON.stringify(portfolio));
+
+
 
     res.statusCode = 201;
     Asset.find({
