@@ -49,7 +49,7 @@ exports.post = function(req, res) {
         if(err) {
           res.statusCode = 500;
           if(err.code === 11000)
-            return res.json({message: "Duplicate asset!"});
+            return res.json({message: "Duplicate asset!", data: err});
           console.log("Error: " + JSON.stringify(err));
           return res.json({message: "some error " + JSON.stringify(err)});
         }
