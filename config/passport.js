@@ -21,7 +21,7 @@ module.exports = function(passport) {
 
 	passport.use('local-signup', new LocalStrategy({
 		usernameField : 'name',
-		passwordField : 'name',
+		passwordField : 'password',
 	},
 	function(name, password, done) {
 		User.findOne({'local.name' : name}, function(err, user) {
